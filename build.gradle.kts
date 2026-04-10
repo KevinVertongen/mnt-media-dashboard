@@ -34,3 +34,9 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+tasks.compileJava {
+    options.encoding = "UTF-8"
+    //options.compilerArgs.add("--enable-native-access=ALL-UNNAMED")
+    //options.compilerArgs.add("--add-modules javafx.controls, javafx.fxml")
+}
