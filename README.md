@@ -1,2 +1,2 @@
-# mnt-media-dashboard
+# Media Dashboard
 An overview of recently played media
