@@ -2,6 +2,8 @@ spring:
   application:
     name: Media Dashboard
     version: 0.0.1
+  main:
+    web-application-type: none
   datasource:
     url: jdbc:sqlite:.data/mediadashboard.sqlite
     driver-class-name: org.sqlite.JDBC

@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "4.0.5"
     id("io.spring.dependency-management") version "1.1.7"
+    id ("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 group = "be.mnt"
@@ -11,6 +12,11 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
     }
+}
+
+javafx {
+    version = "26"
+    modules("javafx.controls", "javafx.fxml")
 }
 
 repositories {
