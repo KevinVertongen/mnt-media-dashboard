@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Media Dashboard
+    version: 0.0.1
+  datasource:
+    url: jdbc:sqlite:.data/mediadashboard.sqlite
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+
