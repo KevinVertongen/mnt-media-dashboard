@@ -5,7 +5,7 @@ spring:
   main:
     web-application-type: none
   datasource:
-    url: jdbc:sqlite:data/mediadashboard.sqlite
+    url: jdbc:sqlite:sqlite/mediadashboard.sqlite
     driver-class-name: org.sqlite.JDBC
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
