@@ -1,4 +1,5 @@
 plugins {
+    application
     java
     id("org.springframework.boot") version "4.0.5"
     id("io.spring.dependency-management") version "1.1.7"
@@ -7,6 +8,11 @@ plugins {
 
 group = "be.mnt"
 version = "0.0.1"
+
+application {
+    mainClass.set("be.mnt.mediadashboard.SpringApplication")
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED,javafx.graphics")
+}
 
 java {
     toolchain {
@@ -35,8 +41,8 @@ tasks.compileJava {
     options.encoding = "UTF-8"
 }
 
-tasks.bootRun {
-    jvmArgs("--enable-native-access=ALL-UNNAMED")
+tasks.jar {
+    archiveFileName = "${project.name}-${project.version}.jar"
 }
 
 tasks.withType<Test> {
