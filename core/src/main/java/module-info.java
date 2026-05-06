@@ -1,4 +1,4 @@
-open module be.mnt.mediadashboard {
+open module be.mnt.mediadashboard.core {
     requires javafx.controls;
     requires javafx.fxml;
 

@@ -6,12 +6,12 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
-group = "be.mnt"
+group = "be.mnt.mediadashboard"
 version = "0.0.1"
 
 application {
-    mainModule.set("be.mnt.mediadashboard")
-    mainClass.set("be.mnt.mediadashboard.SpringApplication")
+    mainModule.set("be.mnt.mediadashboard.core")
+    mainClass.set("be.mnt.mediadashboard.core.SpringApplication")
     applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics")
 }
 
@@ -43,7 +43,7 @@ tasks.compileJava {
 }
 
 tasks.jar {
-    archiveFileName = "${project.name}-${project.version}.jar"
+    archiveFileName = "${rootProject.name}-${project.name}-${project.version}.jar"
 }
 
 tasks.withType<Test> {

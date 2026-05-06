@@ -1,4 +1,4 @@
-package be.mnt.mediadashboard;
+package be.mnt.mediadashboard.core;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
