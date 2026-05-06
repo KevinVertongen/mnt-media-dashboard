@@ -1,6 +1,6 @@
 plugins {
     application
-    java
+    id("java-common-conventions")
     id("org.springframework.boot") version "4.0.5"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.openjfx.javafxplugin") version "0.1.0"
@@ -15,19 +15,9 @@ application {
     applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-}
-
 javafx {
     version = "26"
     modules = listOf("javafx.controls", "javafx.fxml")
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
@@ -35,17 +25,4 @@ dependencies {
     implementation("org.hibernate:hibernate-community-dialects:7.3.0.Final")
     runtimeOnly("org.xerial:sqlite-jdbc")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-tasks.compileJava {
-    options.encoding = "UTF-8"
-}
-
-tasks.jar {
-    archiveFileName = "${rootProject.name}-${project.name}-${project.version}.jar"
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
 }
