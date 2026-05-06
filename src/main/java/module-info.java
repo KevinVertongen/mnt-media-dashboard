@@ -1,4 +1,4 @@
-module be.mnt.mediadashboard {
+open module be.mnt.mediadashboard {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -7,5 +7,6 @@ module be.mnt.mediadashboard {
     requires spring.context;
     requires spring.core;
 
-    opens be.mnt.mediadashboard to javafx.fxml;
+    requires org.apache.commons.logging;
+    requires org.yaml.snakeyaml;
 }
