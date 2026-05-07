@@ -1,4 +1,10 @@
 open module be.mnt.mediadashboard.application {
+    requires jakarta.cdi;
+    requires jakarta.persistence;
+    requires jakarta.transaction;
+    requires jakarta.xml.bind;
+
+    requires java.instrument;
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -10,11 +16,13 @@ open module be.mnt.mediadashboard.application {
     requires spring.core;
     requires spring.data.jpa;
 
-    requires jakarta.persistence;
+    requires com.fasterxml.classmate;
+    requires com.zaxxer.hikari;
+    requires net.bytebuddy;
     requires org.apache.commons.logging;
+    requires org.jboss.logging;
+    requires org.jspecify;
     requires org.slf4j;
     requires org.hibernate.orm.community.dialects;
     requires org.yaml.snakeyaml;
-    requires com.zaxxer.hikari;
-    requires org.jspecify;
 }
