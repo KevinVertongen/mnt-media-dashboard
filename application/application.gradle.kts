@@ -12,7 +12,7 @@ version = "0.0.1"
 application {
     mainModule.set("be.mnt.mediadashboard.application")
     mainClass.set("be.mnt.mediadashboard.application.SpringApplication")
-    applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics")
+    applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics,org.xerial.sqlitejdbc")
 }
 
 javafx {
