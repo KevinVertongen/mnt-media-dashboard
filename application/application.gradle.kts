@@ -10,8 +10,8 @@ group = "be.mnt.mediadashboard"
 version = "0.0.1"
 
 application {
-    mainModule.set("be.mnt.mediadashboard.core")
-    mainClass.set("be.mnt.mediadashboard.core.SpringApplication")
+    mainModule.set("be.mnt.mediadashboard.application")
+    mainClass.set("be.mnt.mediadashboard.application.SpringApplication")
     applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics")
 }
 

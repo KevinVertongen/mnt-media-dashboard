@@ -1,4 +1,4 @@
-package be.mnt.mediadashboard.core;
+package be.mnt.mediadashboard.application;
 
 import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
