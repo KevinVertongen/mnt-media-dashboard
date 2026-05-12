@@ -1,13 +1,8 @@
-debug: false
 spring:
   application:
     name: Media Dashboard
     version: 0.0.1
   main:
     web-application-type: none
-  datasource:
-    url: jdbc:sqlite:sqlite/mediadashboard.sqlite
-    driver-class-name: org.sqlite.JDBC
-  jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
-
+  profiles:
+    active: prod
