@@ -28,8 +28,10 @@ module be.mnt.mediadashboard.application {
     requires org.hibernate.orm.community.dialects;
     requires org.yaml.snakeyaml;
 
+    exports be.mnt.mediadashboard.application to
+        javafx.graphics;
+
     opens be.mnt.mediadashboard.application to
-        javafx.graphics,
         spring.beans,
         spring.context,
         spring.core;
