@@ -5,6 +5,7 @@ startParameter.excludedTaskNames += "bootDistTar"
 startParameter.excludedTaskNames += "bootDistZip"
 
 module("application")
+module("desktop")
 
 fun module(name: String, directory: String = name, buildFileName: String = "$name.gradle.kts") {
     val moduleDir = File(settingsDir, directory)

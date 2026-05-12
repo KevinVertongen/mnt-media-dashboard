@@ -16,11 +16,13 @@ application {
 }
 
 javafx {
-    version = "26"
-    modules = listOf("javafx.controls", "javafx.fxml")
+    version = "26.0.1"
+    modules = listOf("javafx.graphics")
 }
 
 dependencies {
+    implementation(project(":desktop"))
+
     implementation("jakarta.cdi:jakarta.cdi-api:5.0.0.Alpha5")
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:4.0.5")
     implementation("com.fasterxml:classmate:1.7.3")
