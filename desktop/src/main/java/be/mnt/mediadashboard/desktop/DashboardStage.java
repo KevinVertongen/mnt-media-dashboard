@@ -23,6 +23,7 @@ public final class DashboardStage {
 
         primaryStage.setTitle("Media Dashboard");
         primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public void close() {

@@ -17,7 +17,7 @@ application {
 
 javafx {
     version = "26.0.1"
-    modules = listOf("javafx.graphics")
+    modules = listOf("javafx.controls")
 }
 
 dependencies {

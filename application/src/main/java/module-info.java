@@ -1,4 +1,4 @@
-open module be.mnt.mediadashboard.application {
+module be.mnt.mediadashboard.application {
 
     requires be.mnt.mediadashboard.desktop;
 
@@ -8,7 +8,7 @@ open module be.mnt.mediadashboard.application {
     requires jakarta.xml.bind;
 
     requires java.instrument;
-    requires javafx.graphics;
+    requires javafx.controls;
 
     requires spring.boot;
     requires spring.boot.autoconfigure;
@@ -27,4 +27,10 @@ open module be.mnt.mediadashboard.application {
     requires org.slf4j;
     requires org.hibernate.orm.community.dialects;
     requires org.yaml.snakeyaml;
+
+    opens be.mnt.mediadashboard.application to
+        javafx.graphics,
+        spring.beans,
+        spring.context,
+        spring.core;
 }
