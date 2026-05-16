@@ -1,3 +1,4 @@
+debug: false
 spring:
   application:
     name: Media Dashboard
