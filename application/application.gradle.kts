@@ -2,7 +2,7 @@ plugins {
     application
     id("java-common-conventions")
     id("javafx-common-conventions")
-    id("org.beryx.runtime") version "2.0.1"
+    id("jpackage-common-conventions")
     id("org.springframework.boot") version "4.0.5"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -25,17 +25,4 @@ dependencies {
 
     runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-}
-
-runtime {
-    options = listOf("--compress", "2", "--strip-debug", "--no-header-files", "--no-man-pages")
-
-    jpackage {
-        installerOptions = listOf("--resource-dir", "src/main/resources")
-        //installerOptions.add("--win-per-user-install")
-    }
-
-    launcher {
-        noConsole = false
-    }
 }
