@@ -22,6 +22,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.hibernate:hibernate-community-dialects:7.3.0.Final")
 
-    runtimeOnly("org.xerial:sqlite-jdbc")
+    runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
 }

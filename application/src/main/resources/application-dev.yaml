@@ -1,10 +1,10 @@
 debug: false
 spring:
   datasource:
-    url: jdbc:sqlite:../sqlite/mediadashboard.sqlite
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:h2:file:../db/mediadashboard
+    driver-class-name: org.h2.Driver
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    database-platform: org.hibernate.dialect.H2Dialect
 logging:
   file:
     name: ../logs/mediadashboard.log
