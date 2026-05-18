@@ -6,4 +6,6 @@ module be.mnt.mediadashboard.desktop {
     // Note: exports is package-scoped.
     // Exporting be.mnt.mediadashboard.desktop does NOT automatically export its sub-packages.
     exports be.mnt.mediadashboard.desktop;
+
+    exports be.mnt.mediadashboard.desktop.controller to javafx.fxml;
 }
