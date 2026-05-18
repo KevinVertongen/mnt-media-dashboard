@@ -8,7 +8,7 @@ module be.mnt.mediadashboard.application {
     requires jakarta.xml.bind;
 
     requires java.instrument;
-    requires javafx.controls;
+    requires javafx.graphics;
 
     requires spring.boot;
     requires spring.boot.autoconfigure;
