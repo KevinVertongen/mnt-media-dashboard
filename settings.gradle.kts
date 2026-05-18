@@ -1,8 +1,11 @@
 rootProject.name = "media-dashboard"
+
 startParameter.excludedTaskNames += "bootJar"
 startParameter.excludedTaskNames += "bootStartScripts"
 startParameter.excludedTaskNames += "bootDistTar"
 startParameter.excludedTaskNames += "bootDistZip"
+startParameter.excludedTaskNames += "distTar"
+startParameter.excludedTaskNames += "distZip"
 
 module("application")
 module("desktop")
