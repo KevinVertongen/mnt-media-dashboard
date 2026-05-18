@@ -11,7 +11,7 @@ import java.net.URL;
 public final class DashboardStage {
 
     private final Stage primaryStage;
-    private final URL fxmlDashboard = ClassLoader.getSystemResource("fxml/dashboard.fxml");
+    private final URL fxmlDashboard = DashboardStage.class.getResource ("/fxml/dashboard.fxml");
 
     public DashboardStage(final Stage primaryStage) {
         this.primaryStage = primaryStage;
