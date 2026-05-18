@@ -1,4 +1,5 @@
-open module be.mnt.mediadashboard.desktop {
+module be.mnt.mediadashboard.desktop {
+    requires transitive javafx.graphics; // Already required for be.mnt.mediadashboard.application
     requires javafx.controls;
     requires javafx.fxml;
 

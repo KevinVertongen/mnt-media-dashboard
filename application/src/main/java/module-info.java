@@ -2,7 +2,7 @@ open module be.mnt.mediadashboard.application {
 
     requires be.mnt.mediadashboard.desktop;
 
-    requires javafx.graphics; // Change to "javafx.controls" for working example.
+    requires javafx.graphics;
 
     requires spring.boot;
     requires spring.boot.autoconfigure;
