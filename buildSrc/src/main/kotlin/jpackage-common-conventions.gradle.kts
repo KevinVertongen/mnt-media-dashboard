@@ -21,7 +21,7 @@ fun isJavafxJar(file: File): Boolean {
 tasks.register<Copy>("prepareJpackageInput") {
     group = "distribution"
     description = "Copy app jar and non-JavaFX runtime jars into build/jpackage/input"
-    dependsOn(tasks.named("jar"))
+    dependsOn(":desktop:jar", tasks.named("jar"))
 
     from(appJar.map { it.asFile }) {
         into("")
@@ -99,7 +99,7 @@ tasks.register<Exec>("jpackageCreateInstaller") {
             add("--win-console")
             addAll(listOf("--type", "app-image")) // change per platform: msi, dmg, pkg, deb, rpm
             addAll(listOf("--name", "MediaDashboard"))
-            addAll(listOf("--app-version", project.version.toString()))
+            addAll(listOf("--app-version", version.toString()))
             addAll(listOf("--input", input))
             addAll(listOf("--main-jar", mainJarName))
             addAll(listOf("--main-class", mainClass))
