@@ -10,14 +10,13 @@ group = "be.mnt.mediadashboard"
 version = "0.0.1"
 
 application {
-    mainModule.set("be.mnt.mediadashboard.application")
     mainClass.set("be.mnt.mediadashboard.application.SpringApplication")
-    applicationDefaultJvmArgs = listOf("--enable-native-access=javafx.graphics,org.xerial.sqlitejdbc")
+    applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED,javafx.graphics")
 }
 
 javafx {
     version = "26.0.1"
-    modules = listOf("javafx.controls")
+    modules = listOf("javafx.controls", "javafx.fxml")
 }
 
 dependencies {
