@@ -19,6 +19,7 @@ java {
 }
 
 tasks.compileJava {
+    options.compilerArgs.add("-Xlint:all")
     options.encoding = "UTF-8"
 }
 
