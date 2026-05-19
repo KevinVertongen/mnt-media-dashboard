@@ -6,6 +6,8 @@ startParameter.excludedTaskNames += "bootDistTar"
 startParameter.excludedTaskNames += "bootDistZip"
 startParameter.excludedTaskNames += "distTar"
 startParameter.excludedTaskNames += "distZip"
+startParameter.excludedTaskNames += "shadowDistTar"
+startParameter.excludedTaskNames += "shadowDistZip"
 
 module("application")
 module("desktop")

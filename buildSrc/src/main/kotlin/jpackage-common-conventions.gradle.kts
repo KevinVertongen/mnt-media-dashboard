@@ -1,40 +1,49 @@
-import org.gradle.jvm.tasks.Jar
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     application
+    id("com.gradleup.shadow")
+}
+
+tasks.named("jar") {
+    enabled = false // Application is distributed as a 'shadow jar'
+}
+
+tasks.shadowJar {
+    manifest {
+        attributes(mapOf("Main-Class" to application.mainClass.get()))
+    }
+
+    dependencies {
+        exclude { dep -> dep.moduleGroup == "org.openjfx" }
+    }
+    exclude("module-info.class")
+    exclude("**/*.txt")
+    exclude("**/DEPENDENCIES*")
+    exclude("**/LICENSE*")
+    exclude("**/licenses/**")
+    exclude("**/NOTICE*")
+
+    archiveBaseName.set(rootProject.name)
+    archiveClassifier.set("")
+    archiveVersion.set(project.version.toString())
 }
 
 val buildJpackage = layout.buildDirectory.dir("jpackage")
 val inputDir = buildJpackage.map { it.dir("input").asFile }
 val javafxModsDir = buildJpackage.map { it.dir("javafx-mods").asFile }
-val runtimeImageDir = buildJpackage.map { it.dir("image").asFile }
+val runtimeImageDir = buildJpackage.map { it.dir("runtime-image").asFile }
 val jdkHome = providers.environmentVariable("JAVA_HOME")
     .orElse(providers.provider { System.getProperty("java.home") })
     .map { File(it) }
-val appJar = tasks.named<Jar>("jar").flatMap { it.archiveFile }
-
-fun isJavafxJar(file: File): Boolean {
-    val name = file.name.lowercase()
-    return name.startsWith("javafx") || name.startsWith("openjfx")
-}
+val shadowJar = tasks.named<ShadowJar>("shadowJar").flatMap { it.archiveFile }
 
 tasks.register<Copy>("prepareJpackageInput") {
     group = "distribution"
-    description = "Copy app jar and non-JavaFX runtime jars into build/jpackage/input"
-    dependsOn(":desktop:jar", tasks.named("jar"))
+    description = "Copy app jar into build/jpackage/input"
+    inputs.file(shadowJar)
 
-    from(appJar.map { it.asFile }) {
-        into("")
-    }
-
-    from({
-        configurations.getByName("runtimeClasspath").resolvedConfiguration.resolvedArtifacts
-            .map { it.file }
-            .filter { file -> !isJavafxJar(file) }
-    }) {
-        into("")
-    }
-
+    from(shadowJar)
     into(inputDir.get())
 }
 
@@ -43,14 +52,12 @@ tasks.register<Copy>("prepareJavafxModules") {
     description = "Copy JavaFX jars from runtimeClasspath into build/jpackage/javafx-mods"
     dependsOn(tasks.named("jar"))
 
-    from({
-        configurations.getByName("runtimeClasspath").resolvedConfiguration.resolvedArtifacts
-            .map { it.file }
-            .filter { file -> isJavafxJar(file) }
-    }) {
-        into("")
+    from(configurations.runtimeClasspath) {
+        include { file ->
+            val name = file.name.lowercase()
+            (name.startsWith("javafx") || name.startsWith("openjfx"))
+        }
     }
-
     into(javafxModsDir.get())
 }
 
@@ -59,12 +66,15 @@ tasks.register<Exec>("jlinkCreateRuntime") {
     description = "Run jlink to create a runtime image including JavaFX modules"
     dependsOn("prepareJpackageInput", "prepareJavafxModules")
 
+    val javaxModules = listOf("java.naming", "java.sql")
+    val javafxModules = listOf("javafx.controls", "javafx.fxml")
+
     doFirst {
         val javaHomeDir = jdkHome.get()
         val jlinkExe = File(javaHomeDir, "bin/jlink").absolutePath
         val modulePath = listOf(javafxModsDir.get().absolutePath, File(javaHomeDir, "jmods").absolutePath)
             .joinToString(File.pathSeparator)
-        val addModulesCsv = listOf("javafx.controls", "javafx.fxml").joinToString(",")
+        val addModulesCsv = (javaxModules + javafxModules).joinToString(",")
         val output = runtimeImageDir.get().absolutePath
 
         commandLine = listOf(
@@ -90,7 +100,7 @@ tasks.register<Exec>("jpackageCreateInstaller") {
         val jpackageExe = File(javaHomeDir, "bin/jpackage").absolutePath
         val input = inputDir.get().absolutePath
         val runtimeImg = runtimeImageDir.get().absolutePath
-        val mainJarName = appJar.get().asFile.name
+        val mainJarName = shadowJar.get().asFile.name
         val mainClass = application.mainClass.get()
         val outDir = buildJpackage.map { it.dir("output").asFile }.get().absolutePath
 
