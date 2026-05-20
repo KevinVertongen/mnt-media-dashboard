@@ -20,6 +20,16 @@ tasks.named<BootJar>("bootJar") {
     archiveClassifier.set("boot")
 }
 
+val projectPropertiesProvider = providers.provider {
+    project.properties.mapValues { it.value?.toString() ?: "" }
+}
+
+tasks.named<ProcessResources>("processResources") {
+    filesMatching("application.yaml") {
+        expand(projectPropertiesProvider.get())
+    }
+}
+
 dependencies {
     implementation(project(":desktop"))
 

@@ -1,7 +1,7 @@
 spring:
   application:
     name: Media Dashboard
-    version: 0.0.1
+    version: ${project.version}
   main:
     web-application-type: none
   profiles:
