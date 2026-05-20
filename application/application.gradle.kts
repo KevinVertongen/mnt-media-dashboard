@@ -14,6 +14,12 @@ application {
     applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED,javafx.graphics")
 }
 
+tasks.named<ProcessResources>("processResources") {
+    filesMatching("application.yaml") {
+        expand(project.properties)
+    }
+}
+
 tasks.named<BootJar>("bootJar") {
     archiveBaseName.set(rootProject.name)
     archiveVersion.set(project.version.toString())
