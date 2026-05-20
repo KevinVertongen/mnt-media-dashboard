@@ -1,33 +1,13 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     application
-    id("com.gradleup.shadow")
+    id("org.springframework.boot")
 }
 
-tasks.named("jar") {
-    enabled = false // Application is distributed as a 'shadow jar'
-}
-
-tasks.shadowJar {
-    manifest {
-        attributes(mapOf("Main-Class" to application.mainClass.get()))
-    }
-
-    dependencies {
-        exclude { dep -> dep.moduleGroup == "org.openjfx" }
-    }
-    exclude("module-info.class")
-    exclude("**/*.txt")
-    exclude("**/DEPENDENCIES*")
-    exclude("**/LICENSE*")
-    exclude("**/licenses/**")
-    exclude("**/NOTICE*")
-
-    archiveBaseName.set(rootProject.name)
-    archiveClassifier.set("")
-    archiveVersion.set(project.version.toString())
-}
+// Modules to include in the runtime-image //
+val javaModules = listOf("java.compiler", "java.instrument", "java.naming", "java.sql")
+val javafxModules = listOf("javafx.controls", "javafx.fxml")
 
 val buildJpackage = layout.buildDirectory.dir("jpackage")
 val inputDir = buildJpackage.map { it.dir("input").asFile }
@@ -36,14 +16,18 @@ val runtimeImageDir = buildJpackage.map { it.dir("runtime-image").asFile }
 val jdkHome = providers.environmentVariable("JAVA_HOME")
     .orElse(providers.provider { System.getProperty("java.home") })
     .map { File(it) }
-val shadowJar = tasks.named<ShadowJar>("shadowJar").flatMap { it.archiveFile }
+val bootJar = tasks.named<BootJar>("bootJar").flatMap { it.archiveFile }
+
+tasks.named("jar") {
+    enabled = false // Application is distributed as a 'Boot jar'
+}
 
 tasks.register<Copy>("prepareJpackageInput") {
     group = "distribution"
     description = "Copy app jar into build/jpackage/input"
-    inputs.file(shadowJar)
+    inputs.file(bootJar)
 
-    from(shadowJar)
+    from(bootJar)
     into(inputDir.get())
 }
 
@@ -66,15 +50,12 @@ tasks.register<Exec>("jlinkCreateRuntime") {
     description = "Run jlink to create a runtime image including JavaFX modules"
     dependsOn("prepareJpackageInput", "prepareJavafxModules")
 
-    val javaxModules = listOf("java.naming", "java.sql")
-    val javafxModules = listOf("javafx.controls", "javafx.fxml")
-
     doFirst {
         val javaHomeDir = jdkHome.get()
         val jlinkExe = File(javaHomeDir, "bin/jlink").absolutePath
         val modulePath = listOf(javafxModsDir.get().absolutePath, File(javaHomeDir, "jmods").absolutePath)
             .joinToString(File.pathSeparator)
-        val addModulesCsv = (javaxModules + javafxModules).joinToString(",")
+        val addModulesCsv = (javaModules + javafxModules).joinToString(",")
         val output = runtimeImageDir.get().absolutePath
 
         commandLine = listOf(
@@ -100,8 +81,7 @@ tasks.register<Exec>("jpackageCreateInstaller") {
         val jpackageExe = File(javaHomeDir, "bin/jpackage").absolutePath
         val input = inputDir.get().absolutePath
         val runtimeImg = runtimeImageDir.get().absolutePath
-        val mainJarName = shadowJar.get().asFile.name
-        val mainClass = application.mainClass.get()
+        val mainJarName = bootJar.get().asFile.name
         val outDir = buildJpackage.map { it.dir("output").asFile }.get().absolutePath
 
         commandLine = mutableListOf<String>().apply {
@@ -112,7 +92,6 @@ tasks.register<Exec>("jpackageCreateInstaller") {
             addAll(listOf("--app-version", version.toString()))
             addAll(listOf("--input", input))
             addAll(listOf("--main-jar", mainJarName))
-            addAll(listOf("--main-class", mainClass))
             addAll(listOf("--runtime-image", runtimeImg))
             addAll(listOf("--dest", outDir))
             addAll(listOf("--java-options", "--enable-native-access=ALL-UNNAMED,javafx.graphics"))

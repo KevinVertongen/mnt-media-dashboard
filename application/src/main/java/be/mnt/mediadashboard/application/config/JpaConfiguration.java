@@ -1,4 +1,4 @@
-package be.mnt.mediadashboard.application;
+package be.mnt.mediadashboard.application.config;
 
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Configuration;

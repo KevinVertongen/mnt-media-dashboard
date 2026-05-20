@@ -1,15 +1,23 @@
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     application
     id("java-common-conventions")
     id("javafx-common-conventions")
     id("jpackage-common-conventions")
-    id("org.springframework.boot") version "4.0.5"
-    id("io.spring.dependency-management") version "1.1.7"
+    id("org.springframework.boot")
+    id("io.spring.dependency-management")
 }
 
 application {
     mainClass.set("be.mnt.mediadashboard.application.SpringApplication")
     applicationDefaultJvmArgs = listOf("--enable-native-access=ALL-UNNAMED,javafx.graphics")
+}
+
+tasks.named<BootJar>("bootJar") {
+    archiveBaseName.set(rootProject.name)
+    archiveVersion.set(project.version.toString())
+    archiveClassifier.set("boot")
 }
 
 dependencies {

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:db/mediadashboard
+    url: jdbc:h2:file:./db/mediadashboard
     driver-class-name: org.h2.Driver
 logging:
   file:
