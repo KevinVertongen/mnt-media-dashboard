@@ -5,6 +5,9 @@ plugins {
     id("org.springframework.boot")
 }
 
+// Active Spring profiles of the packaged app //
+val activeProfiles = "prod"
+
 // Modules to include in the runtime-image //
 val javaModules = listOf("java.compiler", "java.instrument", "java.naming", "java.sql")
 val javafxModules = listOf("javafx.controls", "javafx.fxml")
@@ -86,7 +89,7 @@ tasks.register<Exec>("jpackageCreateInstaller") {
 
         commandLine = mutableListOf<String>().apply {
             add(jpackageExe)
-            add("--win-console")
+            // add("--win-console") // For debugging only!
             addAll(listOf("--type", "app-image")) // change per platform: msi, dmg, pkg, deb, rpm
             addAll(listOf("--name", "MediaDashboard"))
             addAll(listOf("--app-version", version.toString()))
@@ -94,7 +97,8 @@ tasks.register<Exec>("jpackageCreateInstaller") {
             addAll(listOf("--main-jar", mainJarName))
             addAll(listOf("--runtime-image", runtimeImg))
             addAll(listOf("--dest", outDir))
-            addAll(listOf("--java-options", "--enable-native-access=ALL-UNNAMED,javafx.graphics"))
+            addAll(listOf("--java-options",
+                "-Dspring.profiles.active=${activeProfiles} --enable-native-access=javafx.graphics"))
             // add additional flags (icon, vendor, resource-dir) as needed
         }
     }
