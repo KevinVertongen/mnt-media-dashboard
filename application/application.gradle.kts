@@ -1,4 +1,5 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+import utils.isJavafxJar
 
 plugins {
     application
@@ -15,6 +16,12 @@ application {
 }
 
 tasks.named<BootJar>("bootJar") {
+    setClasspath(
+        files(classpath?.filter { file ->
+            !isJavafxJar(file)
+        })
+    )
+
     archiveBaseName.set(rootProject.name)
     archiveVersion.set(project.version.toString())
     archiveClassifier.set("boot")

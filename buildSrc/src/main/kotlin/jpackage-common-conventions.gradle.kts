@@ -1,4 +1,5 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
+import utils.isJavafxJar
 
 plugins {
     application
@@ -39,12 +40,11 @@ tasks.register<Copy>("prepareJavafxModules") {
     description = "Copy JavaFX jars from runtimeClasspath into build/jpackage/javafx-mods"
     dependsOn(tasks.named("jar"))
 
-    from(configurations.runtimeClasspath) {
-        include { file ->
-            val name = file.name.lowercase()
-            (name.startsWith("javafx") || name.startsWith("openjfx"))
-        }
-    }
+    from({
+        configurations.getByName("runtimeClasspath").resolvedConfiguration.resolvedArtifacts
+            .map { it.file }
+            .filter { file -> isJavafxJar(file) }
+    })
     into(javafxModsDir.get())
 }
 
@@ -87,6 +87,7 @@ tasks.register<Exec>("jpackageCreateInstaller") {
         val mainJarName = bootJar.get().asFile.name
         val outDir = buildJpackage.map { it.dir("output").asFile }.get().absolutePath
 
+        // @formatter:off
         commandLine = mutableListOf<String>().apply {
             add(jpackageExe)
             // add("--win-console") // For debugging only!
@@ -101,5 +102,6 @@ tasks.register<Exec>("jpackageCreateInstaller") {
                 "-Dspring.profiles.active=${activeProfiles} --enable-native-access=javafx.graphics"))
             // add additional flags (icon, vendor, resource-dir) as needed
         }
+        // @formatter:on
     }
 }
